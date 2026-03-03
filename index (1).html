@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🌶 Yum Spicy Salad – Thai Street Eats</title>
+
+  <!-- TailwindCSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { kanit: ['Kanit','sans-serif'], sarabun: ['Sarabun','sans-serif'] },
+          colors: {
+            chili:    { 400:'#ff5c3a', 500:'#e63c1e', 600:'#c02e0f' },
+            turmeric: { 300:'#fcd76a', 400:'#f5bc2f', 500:'#d9a020' },
+            charcoal: { 800:'#1c1a18', 900:'#111009' },
+            cream: '#fdf6ec',
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;700;900&family=Sarabun:wght@300;400;600&display=swap" rel="stylesheet" />
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="font-sarabun">
+
+  <!-- Background orbs -->
+  <div class="orb-top"></div>
+  <div class="orb-bottom"></div>
+
+  <!-- ════════════════════════════════
+       NAVBAR
+  ════════════════════════════════ -->
+  <nav id="navbar" class="relative">
+    <a href="#hero" class="nav-logo">
+      <span class="animate-flicker text-2xl">🌶</span>
+      <span>Yum Spicy</span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#salad">Salads</a></li>
+      <li><a href="#larb">Larb &amp; Nam Tok</a></li>
+      <li><a href="#order-cta">Order</a></li>
+    </ul>
+
+    <a href="#order-cta" class="btn-order-nav btn-shimmer hidden md:inline-flex">Order Now</a>
+
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile dropdown -->
+  <div id="mobile-menu" class="mobile-menu">
+    <a href="#salad">🌶 Salads</a>
+    <a href="#larb">🔥 Larb &amp; Nam Tok</a>
+    <a href="#order-cta">📞 Order Now</a>
+  </div>
+
+  <!-- ════════════════════════════════
+       HERO
+  ════════════════════════════════ -->
+  <header id="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-deco hero-deco-left animate-spin-slow">✦</div>
+    <div class="hero-deco hero-deco-right animate-spin-rev">✦</div>
+
+    <div class="stagger-1">
+      <span class="tag-spicy">🔥 Authentic Thai Street Food</span>
+    </div>
+
+    <h1 class="hero-title stagger-2">
+      YUM<br/><span>SPICY</span>
+    </h1>
+
+    <p class="hero-sub stagger-3">
+      Hand-tossed Thai salads bursting with lime, chili &amp; fresh herbs.
+      Authentic flavors, street-style vibes.
+    </p>
+
+    <div class="hero-btns stagger-4">
+      <a href="#salad"     class="btn-primary">See Menu</a>
+      <a href="#order-cta" class="btn-ghost">Order Now</a>
+    </div>
+
+    <div class="hero-stats stagger-5">
+      <div class="text-center">
+        <div class="stat-num" data-target="15" data-suffix="+">15+</div>
+        <div class="stat-label">Menu Items</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="text-center">
+        <div class="stat-num">50฿</div>
+        <div class="stat-label">Starting From</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="text-center">
+        <div class="stat-num" data-target="100" data-suffix="%">100%</div>
+        <div class="stat-label">Thai Authentic</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ════════════════════════════════
+       SPICY SALAD MENU
+  ════════════════════════════════ -->
+  <section id="salad" class="section-wrap">
+    <div class="section-head reveal">
+      <div class="section-title-row">
+        <span class="section-emoji">🌶</span>
+        <h2 class="section-title">Spicy Salad <span>(Yum)</span></h2>
+      </div>
+      <div class="section-divider"></div>
+      <p class="section-sub">Fresh, punchy, tossed to order</p>
+    </div>
+
+    <div class="menu-grid">
+
+      <div class="menu-card reveal">
+        <div class="card-info">
+          <p class="card-name">Spicy Instant Noodle Salad</p>
+          <p class="card-desc">Moo deng noodles · chili · lime</p>
+        </div>
+        <span class="price-badge">55 ฿</span>
+      </div>
+
+      <div class="menu-card reveal">
+        <div class="card-info">
+          <p class="card-name">Spicy Glass Noodle Salad</p>
+          <p class="card-desc">Woon sen · shrimp · fresh herbs</p>
+        </div>
+        <span class="price-badge">50 ฿</span>
+      </div>
+
+      <div class="menu-card reveal">
+        <div class="card-info">
+          <p class="card-name">Spicy Grilled Pork Neck Salad</p>
+          <p class="card-desc">Kho moo yang · roasted chili</p>
+        </div>
+        <span class="price-badge">60 ฿</span>
+      </div>
+
+      <div class="menu-card reveal">
+        <div class="card-info">
+          <p class="card-name">Spicy Mixed Seafood Salad</p>
+          <p class="card-desc">Squid · shrimp · scallop</p>
+        </div>
+        <span class="price-badge">55 ฿</span>
+      </div>
+
+      <div class="menu-card reveal">
+        <div class="card-info">
+          <p class="card-name">Spicy Crispy Pork Salad</p>
+          <p class="card-desc">Moo grob · fish sauce · lime</p>
+        </div>
+        <span class="price-badge">60 ฿</span>
+      </div>
+
+      <div class="menu-card reveal">
+        <div class="card-info">
+          <p class="card-name">Spicy Chicken Feet Salad</p>
+          <p class="card-desc">Tender · lemongrass · galangal</p>
+        </div>
+        <span class="price-badge">50 ฿</span>
+      </div>
+
+      <div class="menu-card reveal">
+        <div class="card-info">
+          <p class="card-name">Spicy Crystal Noodle Salad</p>
+          <p class="card-desc">Bean thread · minced pork</p>
+        </div>
+        <span class="price-badge">50 ฿</span>
+      </div>
+
+      <div class="menu-card reveal">
+        <div class="card-info">
+          <p class="card-name">Spicy Crispy Rice Salad</p>
+          <p class="card-desc">Khao tod · ground pork</p>
+        </div>
+        <span class="price-badge">50 ฿</span>
+      </div>
+
+      <div class="menu-card reveal">
+        <div class="card-info">
+          <p class="card-name">Spicy Mixed Vegetable Salad</p>
+          <p class="card-desc">Seasonal greens · tamarind</p>
+        </div>
+        <span class="price-badge">50 ฿</span>
+      </div>
+
+      <div class="menu-card reveal" style="grid-column: span 1;">
+        <div class="card-info">
+          <p class="card-name">Spicy Mushroom Salad</p>
+          <p class="card-desc">Het ruam · toasted rice powder</p>
+        </div>
+        <span class="price-badge">50 ฿</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════
+       LARB & NAM TOK MENU
+  ════════════════════════════════ -->
+  <section id="larb" class="section-wrap">
+    <div class="section-head reveal">
+      <div class="section-title-row">
+        <span class="section-emoji">🔥</span>
+        <h2 class="section-title">
+          <span id="typed-title" data-text="Larb &amp; Nam Tok">Larb &amp; Nam Tok</span>
+        </h2>
+      </div>
+      <div class="section-divider"></div>
+      <p class="section-sub">Grilled &amp; minced – northeast Thai classics</p>
+    </div>
+
+    <div class="menu-grid">
+
+      <div class="menu-card reveal">
+        <div class="card-info">
+          <p class="card-name">Spicy Minced Chicken (Larb Gai)</p>
+          <p class="card-desc">Ground chicken · mint · fish sauce</p>
+        </div>
+        <span class="price-badge">50 ฿</span>
+      </div>
+
+      <div class="menu-card reveal">
+        <div class="card-info">
+          <p class="card-name">Grilled Pork Neck Nam Tok</p>
+          <p class="card-desc">Sliced kho moo · citrus dressing</p>
+        </div>
+        <span class="price-badge">60 ฿</span>
+      </div>
+
+      <div class="menu-card reveal">
+        <div class="card-info">
+          <p class="card-name">Grilled Pork + Spicy Dipping</p>
+          <p class="card-desc">Nam jim jaew · galangal</p>
+        </div>
+        <span class="price-badge">60 ฿</span>
+      </div>
+
+      <!-- Best value highlight card -->
+      <div class="menu-card gold-card reveal">
+        <div class="card-info">
+          <div class="card-badges">
+            <p class="card-name">Baked Chicken Wing</p>
+            <span class="badge-tag">BEST VALUE</span>
+          </div>
+          <p class="card-desc">Crispy skin · chili salt glaze</p>
+        </div>
+        <span class="price-badge gold">15 ฿</span>
+      </div>
+
+      <div class="menu-card reveal">
+        <div class="card-info">
+          <p class="card-name">Grilled Chicken Thigh</p>
+          <p class="card-desc">Slow-marinated · lemongrass rub</p>
+        </div>
+        <span class="price-badge">35 ฿</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════
+       ORDER CTA
+  ════════════════════════════════ -->
+  <div id="order-cta">
+    <div class="cta-stripes"></div>
+    <div class="cta-inner">
+      <p class="cta-eyebrow">Ready to eat?</p>
+      <h3 class="cta-title">Order Your<br/>Yum Today</h3>
+      <p class="cta-sub">Call us or visit the stall. Fresh tossed to your heat level — mild to savage 🔥</p>
+      <div class="cta-btns">
+        <a href="tel:+66000000000" class="btn-cta-white">📞 Call to Order</a>
+        <a href="#salad"           class="btn-cta-outline">Browse Menu</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════
+       FOOTER
+  ════════════════════════════════ -->
+  <footer>
+    <a href="#hero" class="footer-logo">
+      <span class="animate-flicker text-xl">🌶</span>
+      <span>Yum Spicy</span>
+    </a>
+    <p>Authentic Thai Street Salads · Bangkok · All prices in Thai Baht</p>
+    <p>Made with 🌶 &amp; love</p>
+  </footer>
+
+  <!-- ── Toast notification ── -->
+  <div id="toast">
+    <span>🌶</span>
+    <span id="toast-msg"></span>
+  </div>
+
+  <!-- ── Floating cart button ── -->
+  <button id="cart-btn" aria-label="View cart" title="View order">
+    🛒
+    <span id="cart-count"></span>
+  </button>
+
+  <!-- External JavaScript -->
+  <script src="main.js"></script>
+
+</body>
+</html>
