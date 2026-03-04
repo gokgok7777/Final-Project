@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🌶 Yum Spicy Salad – Thai Street Eats</title>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;700;900&family=Sarabun:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ══════════════════════════════════════
+       CSS VARIABLES
+    ══════════════════════════════════════ */
+    :root {
+      --chili-400: #ff5c3a;
+      --chili-500: #e63c1e;
+      --chili-600: #c02e0f;
+      --turmeric-300: #fcd76a;
+      --turmeric-400: #f5bc2f;
+      --charcoal-900: #111009;
+      --charcoal-800: #1c1a18;
+      --cream: #fdf6ec;
+      --card-bg: linear-gradient(135deg, #1e1b16 0%, #221f18 100%);
+    }
+
+    /* ══════════════════════════════════════
+       BASE
+    ══════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: var(--charcoal-900);
+      font-family: 'Sarabun', sans-serif;
+      color: var(--cream);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--charcoal-900); }
+    ::-webkit-scrollbar-thumb { background: var(--chili-500); border-radius: 2px; }
+
+    /* noise overlay */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.4;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    }
+
+    /* ══════════════════════════════════════
+       BACKGROUND ORBS
+    ══════════════════════════════════════ */
+    .orb-top {
+      position: fixed; top: 0; left: 50%; transform: translateX(-50%);
+      width: 800px; height: 400px; border-radius: 50%;
+      opacity: 0.10; filter: blur(80px);
+      background: radial-gradient(circle, var(--chili-500) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+    .orb-bottom {
+      position: fixed; bottom: 0; right: 0;
+      width: 260px; height: 260px; border-radius: 50%;
+      opacity: 0.05; filter: blur(60px);
+      background: var(--turmeric-400);
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ══════════════════════════════════════
+       KEYFRAMES
+    ══════════════════════════════════════ */
+    @keyframes flicker    { 0%,100%{opacity:1} 50%{opacity:0.75} }
+    @keyframes rise       { 0%{transform:translateY(32px);opacity:0} 100%{transform:translateY(0);opacity:1} }
+    @keyframes spin-slow  { to{transform:rotate(360deg)} }
+    @keyframes pulse-glow { 0%,100%{box-shadow:0 0 0 0 rgba(230,60,30,0)} 50%{box-shadow:0 0 20px 6px rgba(230,60,30,0.25)} }
+    @keyframes shimmer    { 0%{background-position:-200% center} 100%{background-position:200% center} }
+    @keyframes float      { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+    @keyframes bounce-in  { 0%{transform:scale(0.5);opacity:0} 60%{transform:scale(1.15)} 100%{transform:scale(1);opacity:1} }
+    @keyframes ripple-anim{ to{transform:translate(-50%,-50%) scale(20);opacity:0} }
+
+    .animate-flicker  { animation: flicker   3s ease-in-out infinite; }
+    .animate-spin-slow{ animation: spin-slow 20s linear infinite; }
+    .animate-spin-rev { animation: spin-slow 18s linear infinite reverse; }
+
+    /* stagger */
+    .stagger-1{ animation: rise .6s ease .1s both; }
+    .stagger-2{ animation: rise .6s ease .2s both; }
+    .stagger-3{ animation: rise .6s ease .3s both; }
+    .stagger-4{ animation: rise .6s ease .4s both; }
+    .stagger-5{ animation: rise .6s ease .55s both; }
+
+    /* scroll reveal */
+    .reveal { opacity:0; transform:translateY(28px); transition:opacity .55s ease,transform .55s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+
+    /* ══════════════════════════════════════
+       NAVBAR
+    ══════════════════════════════════════ */
+    #navbar {
+      position: sticky; top: 0; z-index: 50;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 3rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      background: rgba(17,16,9,0.72);
+      transition: all .3s ease;
+    }
+    #navbar.scrolled { background: rgba(17,16,9,0.95); box-shadow: 0 4px 30px rgba(0,0,0,0.45); }
+
+    .nav-logo {
+      display: flex; align-items: center; gap: .6rem;
+      font-family: 'Kanit',sans-serif; font-weight: 700;
+      font-size: 1rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--turmeric-300); text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 1.8rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none; font-size: .82rem;
+      color: rgba(255,255,255,.45); letter-spacing: .05em;
+      transition: color .25s; position: relative;
+    }
+    .nav-links a::after {
+      content:''; position:absolute; bottom:-4px; left:0;
+      width:0; height:2px; background:var(--chili-400);
+      border-radius:2px; transition:width .3s ease;
+    }
+    .nav-links a:hover,.nav-links a.active { color:var(--chili-400); }
+    .nav-links a:hover::after,.nav-links a.active::after { width:100%; }
+
+    .btn-order-nav {
+      padding: .45rem 1.1rem; border-radius: 9999px;
+      font-family: 'Kanit',sans-serif; font-weight: 600;
+      font-size: .72rem; text-transform: uppercase; letter-spacing: .15em;
+      color: #fff; text-decoration: none;
+      background-size: 200% auto;
+      background-image: linear-gradient(90deg,var(--chili-500) 0%,var(--chili-400) 40%,#ff7a5c 60%,var(--chili-500) 100%);
+      animation: shimmer 3s linear infinite, pulse-glow 3s ease-in-out infinite;
+      transition: transform .2s;
+    }
+    .btn-order-nav:hover { transform: scale(1.06); }
+
+    /* hamburger */
+    .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none; padding:4px; }
+    .hamburger span { display:block; width:22px; height:2px; background:var(--cream); border-radius:2px; transition:all .3s ease; }
+    .hamburger.open span:nth-child(1){ transform:rotate(45deg) translate(5px,5px); }
+    .hamburger.open span:nth-child(2){ opacity:0; }
+    .hamburger.open span:nth-child(3){ transform:rotate(-45deg) translate(5px,-5px); }
+
+    .mobile-menu {
+      display:none; flex-direction:column;
+      background:rgba(17,16,9,.97);
+      border-top:1px solid rgba(255,255,255,.05);
+      position:sticky; top:62px; z-index:49;
+    }
+    .mobile-menu a {
+      padding:.8rem 2rem; text-decoration:none;
+      color:rgba(255,255,255,.6); font-family:'Kanit',sans-serif;
+      font-size:.9rem; letter-spacing:.08em;
+      border-bottom:1px solid rgba(255,255,255,.04);
+      transition:color .2s,background .2s;
+    }
+    .mobile-menu a:hover { color:var(--chili-400); background:rgba(255,92,58,.05); }
+    .mobile-menu.open { display:flex; }
+
+    /* ══════════════════════════════════════
+       HERO
+    ══════════════════════════════════════ */
+    #hero {
+      position:relative; z-index:10;
+      text-align:center; padding:5rem 1.5rem 4rem; overflow:hidden;
+    }
+    .hero-glow {
+      position:absolute; inset:0; pointer-events:none;
+      background:radial-gradient(ellipse 70% 50% at 50% 50%,rgba(230,60,30,.17) 0%,transparent 70%);
+    }
+    .hero-deco { position:absolute; font-size:4rem; opacity:.08; pointer-events:none; user-select:none; }
+    .hero-deco-left  { top:2.5rem; left:2.5rem; }
+    .hero-deco-right { top:4rem; right:4rem; font-size:3rem; }
+
+    .tag-spicy {
+      display:inline-block; padding:.25rem 1rem; border-radius:9999px;
+      font-family:'Kanit',sans-serif; font-size:.7rem;
+      letter-spacing:.2em; text-transform:uppercase; margin-bottom:1.5rem;
+      background:rgba(255,92,58,.1); border:1px solid rgba(255,92,58,.28); color:#ff7a5c;
+    }
+    .hero-title {
+      font-family:'Kanit',sans-serif; font-weight:900;
+      font-size:clamp(4rem,12vw,9rem); line-height:1;
+      letter-spacing:-.02em; color:#fff; margin-bottom:1rem;
+    }
+    .hero-title span { color:var(--chili-400); }
+    .hero-sub { color:rgba(255,255,255,.45); max-width:26rem; margin:0 auto 2.5rem; font-size:.9rem; line-height:1.7; }
+    .hero-btns { display:flex; align-items:center; justify-content:center; gap:1rem; flex-wrap:wrap; }
+
+    .btn-primary {
+      padding:.75rem 1.75rem; border-radius:9999px;
+      font-family:'Kanit',sans-serif; font-weight:600; font-size:.8rem;
+      text-transform:uppercase; letter-spacing:.15em;
+      color:#fff; background:var(--chili-500); text-decoration:none;
+      box-shadow:0 4px 20px rgba(230,60,30,.35);
+      transition:background .25s,transform .2s,box-shadow .25s;
+    }
+    .btn-primary:hover { background:var(--chili-400); transform:translateY(-2px); box-shadow:0 8px 30px rgba(230,60,30,.5); }
+
+    .btn-ghost {
+      padding:.75rem 1.75rem; border-radius:9999px;
+      font-family:'Kanit',sans-serif; font-weight:600; font-size:.8rem;
+      text-transform:uppercase; letter-spacing:.15em;
+      color:rgba(255,255,255,.65); border:1px solid rgba(255,255,255,.2);
+      text-decoration:none; transition:border-color .25s,color .25s,transform .2s;
+    }
+    .btn-ghost:hover { border-color:var(--chili-400); color:#fff; transform:translateY(-2px); }
+
+    .hero-stats { display:flex; align-items:center; justify-content:center; gap:3.5rem; flex-wrap:wrap; margin-top:4rem; }
+    .stat-divider { width:1px; height:2.5rem; background:rgba(255,255,255,.1); }
+    .stat-num { font-family:'Kanit',sans-serif; font-weight:900; font-size:2rem; color:var(--turmeric-300); }
+    .stat-label { font-size:.65rem; text-transform:uppercase; letter-spacing:.2em; color:rgba(255,255,255,.25); margin-top:.2rem; }
+
+    /* ══════════════════════════════════════
+       SECTION LAYOUT
+    ══════════════════════════════════════ */
+    .section-wrap { position:relative; z-index:10; padding:0 1.5rem 5rem; }
+    @media(min-width:768px)  { .section-wrap { padding-left:3rem; padding-right:3rem; } }
+    @media(min-width:1024px) { .section-wrap { padding-left:6rem; padding-right:6rem; } }
+
+    .section-head { margin-bottom:2.5rem; }
+    .section-title-row { display:flex; align-items:center; gap:1rem; margin-bottom:.6rem; }
+    .section-emoji { font-size:2rem; }
+    .section-title { font-family:'Kanit',sans-serif; font-weight:700; font-size:clamp(1.6rem,4vw,2.5rem); text-transform:uppercase; letter-spacing:.05em; color:#fff; }
+    .section-title span { color:rgba(255,255,255,.25); }
+    .section-divider { height:1px; background:linear-gradient(90deg,transparent,var(--chili-500),transparent); margin-bottom:.5rem; }
+    .section-sub { font-size:.8rem; color:rgba(255,255,255,.28); }
+
+    /* ══════════════════════════════════════
+       MENU GRID & CARDS
+    ══════════════════════════════════════ */
+    .menu-grid { display:grid; grid-template-columns:1fr; gap:1rem; }
+    @media(min-width:640px)  { .menu-grid { grid-template-columns:repeat(2,1fr); } }
+    @media(min-width:1024px) { .menu-grid { grid-template-columns:repeat(3,1fr); } }
+
+    .menu-card {
+      display:flex; align-items:flex-start; justify-content:space-between;
+      gap:1rem; padding:1.2rem 1.3rem; border-radius:1rem;
+      background:var(--card-bg); border:1px solid rgba(255,92,58,.12);
+      cursor:pointer; position:relative; overflow:hidden;
+      transition:border-color .3s,transform .3s,box-shadow .3s;
+    }
+    .menu-card::before {
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(135deg,rgba(255,92,58,.05) 0%,transparent 60%);
+      opacity:0; transition:opacity .3s;
+    }
+    .menu-card:hover { border-color:rgba(255,92,58,.5); transform:translateY(-3px); box-shadow:0 12px 40px rgba(255,92,58,.12); }
+    .menu-card:hover::before { opacity:1; }
+    .menu-card.gold-card { background:linear-gradient(135deg,#1e1b10,#221e12); border-color:rgba(245,188,47,.22); }
+    .menu-card.gold-card:hover { border-color:rgba(245,188,47,.55); box-shadow:0 12px 40px rgba(245,188,47,.1); }
+
+    .card-info { flex:1; }
+    .card-name { font-family:'Kanit',sans-serif; font-weight:600; font-size:.95rem; color:#fff; line-height:1.3; transition:color .25s; }
+    .menu-card:hover .card-name { color:var(--chili-400); }
+    .gold-card:hover .card-name { color:var(--turmeric-300); }
+    .card-desc { font-size:.72rem; color:rgba(255,255,255,.28); margin-top:.25rem; }
+    .card-badges { display:flex; align-items:center; gap:.4rem; margin-bottom:.2rem; flex-wrap:wrap; }
+
+    .price-badge {
+      flex-shrink:0; padding:.2rem .75rem; border-radius:9999px;
+      font-family:'Kanit',sans-serif; font-weight:700; font-size:.72rem;
+      color:#fff; background:linear-gradient(135deg,var(--chili-500),var(--chili-400));
+      text-shadow:0 1px 2px rgba(0,0,0,.25); white-space:nowrap; align-self:flex-start;
+    }
+    .price-badge.gold { background:linear-gradient(135deg,var(--turmeric-400),var(--turmeric-300)); color:#1a1400; text-shadow:none; }
+
+    .badge-tag {
+      font-size:.62rem; font-family:'Kanit',sans-serif; font-weight:600;
+      padding:.1rem .5rem; border-radius:9999px;
+      background:rgba(245,188,47,.12); border:1px solid rgba(245,188,47,.28);
+      color:var(--turmeric-300); white-space:nowrap;
+    }
+
+    /* heat dots */
+    .heat { display:inline-flex; align-items:center; gap:3px; margin-top:.3rem; }
+    .heat-dot { width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,.1); }
+    .heat-dot.on { background:var(--chili-400); }
+
+    /* ══════════════════════════════════════
+       ORDER CTA
+    ══════════════════════════════════════ */
+    #order-cta {
+      position:relative; z-index:10;
+      margin:0 1.5rem 5rem; border-radius:1.5rem; overflow:hidden;
+      background:linear-gradient(135deg,var(--chili-600) 0%,var(--chili-500) 50%,var(--chili-400) 100%);
+    }
+    @media(min-width:768px){ #order-cta { margin-left:3rem; margin-right:3rem; } }
+    .cta-stripes {
+      position:absolute; inset:0; opacity:.08;
+      background-image:repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(255,255,255,.15) 20px,rgba(255,255,255,.15) 21px);
+    }
+    .cta-inner { position:relative; padding:3.5rem 2rem; text-align:center; }
+    .cta-eyebrow { font-family:'Kanit',sans-serif; font-weight:700; font-size:.68rem; text-transform:uppercase; letter-spacing:.3em; color:rgba(255,255,255,.55); margin-bottom:.75rem; }
+    .cta-title { font-family:'Kanit',sans-serif; font-weight:900; font-size:clamp(2.2rem,6vw,4rem); color:#fff; line-height:1.1; margin-bottom:1rem; }
+    .cta-sub { color:rgba(255,255,255,.65); font-size:.85rem; margin-bottom:2rem; max-width:22rem; margin-left:auto; margin-right:auto; }
+    .cta-btns { display:flex; align-items:center; justify-content:center; gap:1rem; flex-wrap:wrap; }
+    .btn-cta-white {
+      padding:.75rem 2rem; border-radius:9999px; font-family:'Kanit',sans-serif; font-weight:700;
+      font-size:.8rem; text-transform:uppercase; letter-spacing:.15em;
+      color:var(--chili-600); background:#fff; text-decoration:none;
+      box-shadow:0 4px 20px rgba(0,0,0,.2); transition:background .25s,transform .2s;
+    }
+    .btn-cta-white:hover { background:var(--cream); transform:translateY(-2px); }
+    .btn-cta-outline {
+      padding:.75rem 2rem; border-radius:9999px; font-family:'Kanit',sans-serif; font-weight:700;
+      font-size:.8rem; text-transform:uppercase; letter-spacing:.15em;
+      color:#fff; border:2px solid rgba(255,255,255,.35); text-decoration:none;
+      transition:border-color .25s,transform .2s;
+    }
+    .btn-cta-outline:hover { border-color:#fff; transform:translateY(-2px); }
+
+    /* ══════════════════════════════════════
+       HOURS & LOCATION
+    ══════════════════════════════════════ */
+    .hours-grid { display:grid; grid-template-columns:1fr; gap:1.5rem; }
+    @media(min-width:768px){ .hours-grid { grid-template-columns:repeat(3,1fr); } }
+
+    .hours-card {
+      padding:1.5rem; border-radius:1rem;
+      background:var(--card-bg); border:1px solid rgba(255,92,58,.12);
+      transition:border-color .3s,transform .3s;
+    }
+    .hours-card:hover { border-color:rgba(255,92,58,.45); transform:translateY(-3px); }
+    .hours-card h3 { font-family:'Kanit',sans-serif; font-weight:600; font-size:1rem; color:var(--turmeric-300); margin-bottom:.8rem; }
+    .hours-card p { font-size:.9rem; color:rgba(255,255,255,.6); line-height:1.6; }
+    .hours-list { margin-top:.8rem; }
+    .hours-row {
+      display:flex; justify-content:space-between; align-items:center;
+      padding:.5rem 0; border-bottom:1px solid rgba(255,255,255,.05);
+      font-size:.82rem; color:rgba(255,255,255,.5);
+    }
+    .hours-row span:last-child { color:var(--chili-400); font-weight:600; font-family:'Kanit',sans-serif; }
+    .hours-row.today { background:rgba(255,92,58,.06); padding:.5rem .6rem; border-radius:.4rem; margin:0 -.6rem; }
+    .hours-row.today span:first-child { color:#fff; font-weight:600; }
+
+    .btn-secondary {
+      display:inline-block; margin-top:1rem; padding:.5rem 1rem; border-radius:9999px;
+      font-family:'Kanit',sans-serif; font-weight:600; font-size:.75rem;
+      text-transform:uppercase; letter-spacing:.1em;
+      color:var(--chili-400); border:1px solid var(--chili-400);
+      text-decoration:none; background:transparent; cursor:pointer;
+      transition:background .25s,color .25s;
+    }
+    .btn-secondary:hover { background:var(--chili-400); color:#fff; }
+
+    /* ══════════════════════════════════════
+       FORMS
+    ══════════════════════════════════════ */
+    .form-container { max-width:640px; margin:0 auto; }
+    .form-box {
+      padding:2rem; border-radius:1rem;
+      background:var(--card-bg); border:1px solid rgba(255,92,58,.12);
+    }
+    .form-row { display:grid; grid-template-columns:1fr; gap:1.2rem; margin-bottom:1.2rem; }
+    @media(min-width:640px){ .form-row { grid-template-columns:1fr 1fr; } }
+
+    .form-group { display:flex; flex-direction:column; }
+    .form-group.full-width { grid-column:1/-1; }
+    .form-group label {
+      font-family:'Kanit',sans-serif; font-size:.82rem; font-weight:600;
+      color:rgba(255,255,255,.65); margin-bottom:.45rem;
+      text-transform:uppercase; letter-spacing:.05em;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding:.75rem 1rem; border-radius:.5rem;
+      background:rgba(255,255,255,.05); border:1px solid rgba(255,92,58,.2);
+      color:#fff; font-family:'Sarabun',sans-serif; font-size:.9rem;
+      transition:border-color .25s,background .25s,box-shadow .25s;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color:rgba(255,255,255,.25); }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline:none; background:rgba(255,255,255,.08);
+      border-color:var(--chili-400); box-shadow:0 0 12px rgba(255,92,58,.15);
+    }
+    .form-group select {
+      cursor:pointer; appearance:none;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23ff5c3a' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+      background-repeat:no-repeat; background-position:right .75rem center; padding-right:2.5rem;
+      background-color:rgba(255,255,255,.05);
+    }
+    .form-group select option { background:#1e1b16; color:#fff; }
+    .form-submit {
+      width:100%; padding:.85rem; border-radius:9999px;
+      font-family:'Kanit',sans-serif; font-weight:700; font-size:.85rem;
+      text-transform:uppercase; letter-spacing:.15em;
+      color:#fff; background:var(--chili-500); border:none; cursor:pointer;
+      transition:background .25s,transform .2s,box-shadow .25s;
+      box-shadow:0 4px 20px rgba(230,60,30,.3);
+    }
+    .form-submit:hover { background:var(--chili-400); transform:translateY(-2px); box-shadow:0 8px 28px rgba(230,60,30,.45); }
+
+    /* ══════════════════════════════════════
+       REVIEWS
+    ══════════════════════════════════════ */
+    .reviews-container { display:grid; grid-template-columns:1fr; gap:1.2rem; }
+    @media(min-width:640px)  { .reviews-container { grid-template-columns:repeat(2,1fr); } }
+    @media(min-width:1024px) { .reviews-container { grid-template-columns:repeat(3,1fr); } }
+
+    .review-card {
+      padding:1.5rem; border-radius:1rem;
+      background:var(--card-bg); border:1px solid rgba(255,92,58,.12);
+      transition:border-color .3s,transform .3s;
+    }
+    .review-card:hover { border-color:rgba(255,92,58,.45); transform:translateY(-3px); }
+    .review-head { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:.8rem; gap:1rem; }
+    .reviewer-name { font-family:'Kanit',sans-serif; font-weight:600; color:#fff; font-size:.95rem; }
+    .review-stars { font-size:.9rem; letter-spacing:.1em; }
+    .review-text { font-size:.85rem; color:rgba(255,255,255,.62); line-height:1.6; margin-bottom:.8rem; }
+    .review-date { font-size:.7rem; color:rgba(255,255,255,.25); text-transform:uppercase; letter-spacing:.05em; }
+    .review-dish {
+      display:inline-block; margin-bottom:.6rem;
+      font-size:.68rem; font-family:'Kanit',sans-serif; font-weight:600;
+      padding:.15rem .55rem; border-radius:9999px;
+      background:rgba(255,92,58,.1); border:1px solid rgba(255,92,58,.2); color:var(--chili-400);
+    }
+
+    /* ══════════════════════════════════════
+       TEAM
+    ══════════════════════════════════════ */
+    .team-grid { display:grid; grid-template-columns:1fr; gap:1.5rem; }
+    @media(min-width:640px)  { .team-grid { grid-template-columns:repeat(2,1fr); } }
+    @media(min-width:1024px) { .team-grid { grid-template-columns:repeat(4,1fr); } }
+
+    .team-card {
+      padding:1.5rem; border-radius:1rem;
+      background:var(--card-bg); border:1px solid rgba(255,92,58,.12);
+      text-align:center; transition:border-color .3s,transform .3s;
+    }
+    .team-card:hover { border-color:rgba(255,92,58,.45); transform:translateY(-3px); }
+    .team-avatar { font-size:3.5rem; margin-bottom:.8rem; display:block; animation:float 4s ease-in-out infinite; }
+    .team-name { font-family:'Kanit',sans-serif; font-weight:700; font-size:1rem; color:var(--turmeric-300); margin-bottom:.25rem; }
+    .team-role { font-family:'Kanit',sans-serif; font-weight:600; font-size:.75rem; color:var(--chili-400); text-transform:uppercase; letter-spacing:.06em; margin-bottom:.75rem; }
+    .team-bio { font-size:.8rem; color:rgba(255,255,255,.5); line-height:1.6; }
+
+    /* ══════════════════════════════════════
+       TOAST & CART
+    ══════════════════════════════════════ */
+    #toast {
+      position:fixed; bottom:2rem; right:2rem; z-index:100;
+      padding:.75rem 1.4rem; border-radius:.75rem;
+      background:linear-gradient(135deg,#1e1b16,#221f18);
+      border:1px solid rgba(255,92,58,.35); color:#fff;
+      font-family:'Kanit',sans-serif; font-size:.8rem;
+      display:flex; align-items:center; gap:.6rem;
+      box-shadow:0 8px 30px rgba(0,0,0,.4);
+      transform:translateY(20px); opacity:0;
+      transition:transform .35s ease,opacity .35s ease; pointer-events:none;
+    }
+    #toast.show { transform:translateY(0); opacity:1; }
+
+    #cart-btn {
+      position:fixed; bottom:2rem; left:2rem; z-index:100;
+      width:52px; height:52px; border-radius:50%;
+      background:var(--chili-500); border:none; cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      font-size:1.3rem; box-shadow:0 4px 20px rgba(230,60,30,.4);
+      transition:background .25s,transform .2s;
+    }
+    #cart-btn:hover { background:var(--chili-400); transform:scale(1.08); }
+    #cart-count {
+      position:absolute; top:-4px; right:-4px;
+      width:18px; height:18px; border-radius:50%;
+      background:var(--turmeric-300); color:#1a1400;
+      font-family:'Kanit',sans-serif; font-weight:700; font-size:.65rem;
+      display:none; align-items:center; justify-content:center;
+      animation:bounce-in .3s ease;
+    }
+
+    /* ══════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════ */
+    footer {
+      position:relative; z-index:10;
+      display:flex; align-items:center; justify-content:space-between;
+      flex-wrap:wrap; gap:1rem; padding:2rem 3rem;
+      border-top:1px solid rgba(255,255,255,.05);
+    }
+    .footer-logo { display:flex; align-items:center; gap:.5rem; text-decoration:none; }
+    .footer-logo span { font-family:'Kanit',sans-serif; font-weight:700; font-size:.85rem; letter-spacing:.2em; text-transform:uppercase; color:rgba(255,255,255,.4); }
+    footer p { font-size:.72rem; color:rgba(255,255,255,.18); text-align:center; }
+
+    /* ══════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════ */
+    @media(max-width:767px){
+      #navbar { padding:1rem 1.25rem; }
+      .nav-links { display:none; }
+      .hamburger { display:flex; }
+      .btn-order-nav { display:none; }
+      .hero-deco { display:none; }
+      .hero-stats { gap:1.5rem; }
+      footer { padding:1.5rem 1.25rem; flex-direction:column; text-align:center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="orb-top"></div>
+  <div class="orb-bottom"></div>
+
+  <!-- ═══ NAVBAR ═══ -->
+  <nav id="navbar">
+    <a href="#hero" class="nav-logo">
+      <span class="animate-flicker" style="font-size:1.5rem">🌶</span>
+      <span>Yum Spicy</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#salad">Menu</a></li>
+      <li><a href="#hours">Hours</a></li>
+      <li><a href="#reservations">Reserve</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#team">Team</a></li>
+    </ul>
+    <a href="#order-cta" class="btn-order-nav">Order Now</a>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div id="mobile-menu" class="mobile-menu">
+    <a href="#salad">🌶 Menu</a>
+    <a href="#hours">🕐 Hours &amp; Location</a>
+    <a href="#reservations">📅 Reservations</a>
+    <a href="#reviews">⭐ Reviews</a>
+    <a href="#team">👨‍🍳 Team</a>
+    <a href="#order-cta">📞 Order Now</a>
+  </div>
+
+  <!-- ═══ HERO ═══ -->
+  <header id="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-deco hero-deco-left animate-spin-slow">✦</div>
+    <div class="hero-deco hero-deco-right animate-spin-rev">✦</div>
+    <div class="stagger-1"><span class="tag-spicy">🔥 Authentic Thai Street Food</span></div>
+    <h1 class="hero-title stagger-2">YUM<br/><span>SPICY</span></h1>
+    <p class="hero-sub stagger-3">Hand-tossed Thai salads bursting with lime, chili &amp; fresh herbs. Authentic flavors, street-style vibes.</p>
+    <div class="hero-btns stagger-4">
+      <a href="#salad" class="btn-primary">See Menu</a>
+      <a href="#order-cta" class="btn-ghost">Order Now</a>
+    </div>
+    <div class="hero-stats stagger-5">
+      <div style="text-align:center">
+        <div class="stat-num" data-target="15" data-suffix="+">0+</div>
+        <div class="stat-label">Menu Items</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div style="text-align:center">
+        <div class="stat-num">50฿</div>
+        <div class="stat-label">Starting From</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div style="text-align:center">
+        <div class="stat-num" data-target="100" data-suffix="%">0%</div>
+        <div class="stat-label">Thai Authentic</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══ SPICY SALAD ═══ -->
+  <section id="salad" class="section-wrap">
+    <div class="section-head reveal">
+      <div class="section-title-row">
+        <span class="section-emoji">🌶</span>
+        <h2 class="section-title">Spicy Salad <span>(Yum)</span></h2>
+      </div>
+      <div class="section-divider"></div>
+      <p class="section-sub">Fresh, punchy, tossed to order — tap any dish to add to order</p>
+    </div>
+    <div class="menu-grid">
+      <div class="menu-card reveal" data-name="Spicy Instant Noodle Salad" data-price="55"><div class="card-info"><p class="card-name">Spicy Instant Noodle Salad</p><p class="card-desc">Moo deng noodles · chili · lime</p><div class="heat"><div class="heat-dot on"></div><div class="heat-dot on"></div><div class="heat-dot"></div></div></div><span class="price-badge">55 ฿</span></div>
+      <div class="menu-card reveal" data-name="Spicy Glass Noodle Salad" data-price="50"><div class="card-info"><p class="card-name">Spicy Glass Noodle Salad</p><p class="card-desc">Woon sen · shrimp · fresh herbs</p><div class="heat"><div class="heat-dot on"></div><div class="heat-dot on"></div><div class="heat-dot"></div></div></div><span class="price-badge">50 ฿</span></div>
+      <div class="menu-card reveal" data-name="Spicy Grilled Pork Neck Salad" data-price="60"><div class="card-info"><p class="card-name">Spicy Grilled Pork Neck Salad</p><p class="card-desc">Kho moo yang · roasted chili</p><div class="heat"><div class="heat-dot on"></div><div class="heat-dot on"></div><div class="heat-dot on"></div></div></div><span class="price-badge">60 ฿</span></div>
+      <div class="menu-card reveal" data-name="Spicy Mixed Seafood Salad" data-price="55"><div class="card-info"><p class="card-name">Spicy Mixed Seafood Salad</p><p class="card-desc">Squid · shrimp · scallop</p><div class="heat"><div class="heat-dot on"></div><div class="heat-dot on"></div><div class="heat-dot on"></div></div></div><span class="price-badge">55 ฿</span></div>
+      <div class="menu-card reveal" data-name="Spicy Crispy Pork Salad" data-price="60"><div class="card-info"><p class="card-name">Spicy Crispy Pork Salad</p><p class="card-desc">Moo grob · fish sauce · lime</p><div class="heat"><div class="heat-dot on"></div><div class="heat-dot on"></div><div class="heat-dot"></div></div></div><span class="price-badge">60 ฿</span></div>
+      <div class="menu-card reveal" data-name="Spicy Chicken Feet Salad" data-price="50"><div class="card-info"><p class="card-name">Spicy Chicken Feet Salad</p><p class="card-desc">Tender · lemongrass · galangal</p><div class="heat"><div class="heat-dot on"></div><div class="heat-dot on"></div><div class="heat-dot"></div></div></div><span class="price-badge">50 ฿</span></div>
+      <div class="menu-card reveal" data-name="Spicy Crystal Noodle Salad" data-price="50"><div class="card-info"><p class="card-name">Spicy Crystal Noodle Salad</p><p class="card-desc">Bean thread · minced pork</p><div class="heat"><div class="heat-dot on"></div><div class="heat-dot"></div><div class="heat-dot"></div></div></div><span class="price-badge">50 ฿</span></div>
+      <div class="menu-card reveal" data-name="Spicy Crispy Rice Salad" data-price="50"><div class="card-info"><p class="card-name">Spicy Crispy Rice Salad</p><p class="card-desc">Khao tod · ground pork</p><div class="heat"><div class="heat-dot on"></div><div class="heat-dot on"></div><div class="heat-dot"></div></div></div><span class="price-badge">50 ฿</span></div>
+      <div class="menu-card reveal" data-name="Spicy Mixed Vegetable Salad" data-price="50"><div class="card-info"><p class="card-name">Spicy Mixed Vegetable Salad</p><p class="card-desc">Seasonal greens · tamarind</p><div class="heat"><div class="heat-dot on"></div><div class="heat-dot"></div><div class="heat-dot"></div></div></div><span class="price-badge">50 ฿</span></div>
+      <div class="menu-card reveal" data-name="Spicy Mushroom Salad" data-price="50"><div class="card-info"><p class="card-name">Spicy Mushroom Salad</p><p class="card-desc">Het ruam · toasted rice powder</p><div class="heat"><div class="heat-dot on"></div><div class="heat-dot on"></div><div class="heat-dot"></div></div></div><span class="price-badge">50 ฿</span></div>
+    </div>
+  </section>
+
+  <!-- ═══ LARB & NAM TOK ═══ -->
+  <section id="larb" class="section-wrap">
+    <div class="section-head reveal">
+      <div class="section-title-row">
+        <span class="section-emoji">🔥</span>
+        <h2 class="section-title"><span id="typed-title" data-text="Larb & Nam Tok">Larb &amp; Nam Tok</span></h2>
+      </div>
+      <div class="section-divider"></div>
+      <p class="section-sub">Grilled &amp; minced – northeast Thai classics</p>
+    </div>
+    <div class="menu-grid">
+      <div class="menu-card reveal" data-name="Spicy Minced Chicken (Larb Gai)" data-price="50"><div class="card-info"><p class="card-name">Spicy Minced Chicken (Larb Gai)</p><p class="card-desc">Ground chicken · mint · fish sauce</p><div class="heat"><div class="heat-dot on"></div><div class="heat-dot on"></div><div class="heat-dot on"></div></div></div><span class="price-badge">50 ฿</span></div>
+      <div class="menu-card reveal" data-name="Grilled Pork Neck Nam Tok" data-price="60"><div class="card-info"><p class="card-name">Grilled Pork Neck Nam Tok</p><p class="card-desc">Sliced kho moo · citrus dressing</p><div class="heat"><div class="heat-dot on"></div><div class="heat-dot on"></div><div class="heat-dot on"></div></div></div><span class="price-badge">60 ฿</span></div>
+      <div class="menu-card reveal" data-name="Grilled Pork + Spicy Dipping" data-price="60"><div class="card-info"><p class="card-name">Grilled Pork + Spicy Dipping</p><p class="card-desc">Nam jim jaew · galangal</p><div class="heat"><div class="heat-dot on"></div><div class="heat-dot on"></div><div class="heat-dot on"></div></div></div><span class="price-badge">60 ฿</span></div>
+      <div class="menu-card gold-card reveal" data-name="Baked Chicken Wing" data-price="15"><div class="card-info"><div class="card-badges"><p class="card-name">Baked Chicken Wing</p><span class="badge-tag">BEST VALUE</span></div><p class="card-desc">Crispy skin · chili salt glaze</p><div class="heat"><div class="heat-dot on"></div><div class="heat-dot"></div><div class="heat-dot"></div></div></div><span class="price-badge gold">15 ฿</span></div>
+      <div class="menu-card reveal" data-name="Grilled Chicken Thigh" data-price="35"><div class="card-info"><p class="card-name">Grilled Chicken Thigh</p><p class="card-desc">Slow-marinated · lemongrass rub</p><div class="heat"><div class="heat-dot on"></div><div class="heat-dot on"></div><div class="heat-dot"></div></div></div><span class="price-badge">35 ฿</span></div>
+    </div>
+  </section>
+
+  <!-- ═══ ORDER CTA ═══ -->
+  <div id="order-cta">
+    <div class="cta-stripes"></div>
+    <div class="cta-inner">
+      <p class="cta-eyebrow">Ready to eat?</p>
+      <h3 class="cta-title">Order Your<br/>Yum Today</h3>
+      <p class="cta-sub">Call us or visit the stall. Fresh tossed to your heat level — mild to savage 🔥</p>
+      <div class="cta-btns">
+        <a href="tel:+66000000000" class="btn-cta-white">📞 Call to Order</a>
+        <a href="#salad" class="btn-cta-outline">Browse Menu</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ HOURS & LOCATION ═══ -->
+  <section id="hours" class="section-wrap">
+    <div class="section-head reveal">
+      <div class="section-title-row">
+        <span class="section-emoji">🕐</span>
+        <h2 class="section-title">Hours &amp; Location</h2>
+      </div>
+      <div class="section-divider"></div>
+      <p class="section-sub">Find us in Bangkok's bustling streets</p>
+    </div>
+    <div class="hours-grid">
+      <div class="hours-card reveal">
+        <h3>📍 Location</h3>
+        <p>Yaowarat Road, Chinatown<br/>Bangkok, Thailand 10110</p>
+        <a href="https://maps.google.com" target="_blank" class="btn-secondary">📍 Get Directions</a>
+      </div>
+      <div class="hours-card reveal">
+        <h3>🕐 Opening Hours</h3>
+        <div class="hours-list">
+          <div class="hours-row"><span>Monday – Friday</span><span>11:00 AM – 11:00 PM</span></div>
+          <div class="hours-row today"><span>Saturday ✦ Today</span><span>10:00 AM – 12:00 AM</span></div>
+          <div class="hours-row"><span>Sunday</span><span>10:00 AM – 10:00 PM</span></div>
+        </div>
+      </div>
+      <div class="hours-card reveal">
+        <h3>📞 Contact</h3>
+        <p>Phone: +66 (0)2 000 0000<br/>Line: @yumspicy<br/>Instagram: @yumspicy_bkk</p>
+        <a href="tel:+66000000000" class="btn-secondary">📞 Call Now</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ QUICK ORDER FORM ═══ -->
+  <section id="reservations" class="section-wrap">
+    <div class="section-head reveal">
+      <div class="section-title-row">
+        <span class="section-emoji">📋</span>
+        <h2 class="section-title">Quick Order <span>/ Reserve</span></h2>
+      </div>
+      <div class="section-divider"></div>
+      <p class="section-sub">Pre-order or reserve a table — we'll be ready for you</p>
+    </div>
+    <div class="form-container reveal">
+      <div class="form-box">
+        <form id="order-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="f-name">Your Name</label>
+              <input type="text" id="f-name" name="name" placeholder="e.g. Somchai" required />
+            </div>
+            <div class="form-group">
+              <label for="f-phone">Phone</label>
+              <input type="tel" id="f-phone" name="phone" placeholder="08x-xxx-xxxx" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="f-item">Menu Item</label>
+              <select id="f-item" name="item" required>
+                <option value="" disabled selected>Select dish...</option>
+                <optgroup label="🌶 Spicy Salad (Yum)">
+                  <option>Spicy Instant Noodle Salad – 55฿</option>
+                  <option>Spicy Glass Noodle Salad – 50฿</option>
+                  <option>Spicy Grilled Pork Neck Salad – 60฿</option>
+                  <option>Spicy Mixed Seafood Salad – 55฿</option>
+                  <option>Spicy Crispy Pork Salad – 60฿</option>
+                  <option>Spicy Chicken Feet Salad – 50฿</option>
+                  <option>Spicy Crystal Noodle Salad – 50฿</option>
+                  <option>Spicy Crispy Rice Salad – 50฿</option>
+                  <option>Spicy Mixed Vegetable Salad – 50฿</option>
+                  <option>Spicy Mushroom Salad – 50฿</option>
+                </optgroup>
+                <optgroup label="🔥 Larb & Nam Tok">
+                  <option>Spicy Minced Chicken (Larb Gai) – 50฿</option>
+                  <option>Grilled Pork Neck Nam Tok – 60฿</option>
+                  <option>Grilled Pork + Spicy Dipping – 60฿</option>
+                  <option>Baked Chicken Wing – 15฿</option>
+                  <option>Grilled Chicken Thigh – 35฿</option>
+                </optgroup>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="f-qty">Quantity</label>
+              <select id="f-qty" name="quantity">
+                <option>1</option><option>2</option><option>3</option>
+                <option>4</option><option>5</option><option>6+</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="f-spice">Spice Level</label>
+              <select id="f-spice" name="spice">
+                <option>🌶 Mild</option>
+                <option selected>🌶🌶 Medium</option>
+                <option>🌶🌶🌶 Hot</option>
+                <option>🔥 Savage Thai-style</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="f-time">Pick-up / Dine-in Time</label>
+              <input type="time" id="f-time" name="time" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group full-width">
+              <label for="f-note">Special Notes</label>
+              <textarea id="f-note" name="note" rows="3" placeholder="Allergies, extra chili, no fish sauce..."></textarea>
+            </div>
+          </div>
+          <button type="submit" class="form-submit">🛒 Confirm Order</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ REVIEWS ═══ -->
+  <section id="reviews" class="section-wrap">
+    <div class="section-head reveal">
+      <div class="section-title-row">
+        <span class="section-emoji">⭐</span>
+        <h2 class="section-title">What People Say</h2>
+      </div>
+      <div class="section-divider"></div>
+      <p class="section-sub">Real reviews from real spice lovers</p>
+    </div>
+    <div class="reviews-container">
+      <div class="review-card reveal">
+        <div class="review-head">
+          <div>
+            <div class="reviewer-name">Siriporn K.</div>
+            <span class="review-dish">Spicy Crispy Pork Salad</span>
+          </div>
+          <div class="review-stars">⭐⭐⭐⭐⭐</div>
+        </div>
+        <p class="review-text">The moo grob was perfectly crispy and the dressing had the right balance of lime and chili. Came back 3 times this week!</p>
+        <div class="review-date">February 2026</div>
+      </div>
+      <div class="review-card reveal">
+        <div class="review-head">
+          <div>
+            <div class="reviewer-name">James T.</div>
+            <span class="review-dish">Spicy Mixed Seafood Salad</span>
+          </div>
+          <div class="review-stars">⭐⭐⭐⭐⭐</div>
+        </div>
+        <p class="review-text">Best yum talay in Bangkok. Fresh squid, big shrimp, incredible lime dressing. The Thai-style heat is no joke!</p>
+        <div class="review-date">January 2026</div>
+      </div>
+      <div class="review-card reveal">
+        <div class="review-head">
+          <div>
+            <div class="reviewer-name">Nattaporn W.</div>
+            <span class="review-dish">Larb Gai</span>
+          </div>
+          <div class="review-stars">⭐⭐⭐⭐⭐</div>
+        </div>
+        <p class="review-text">Authentic Isan larb, just like grandma makes. The toasted rice powder adds that signature crunch. Highly recommend!</p>
+        <div class="review-date">March 2026</div>
+      </div>
+      <div class="review-card reveal">
+        <div class="review-head">
+          <div>
+            <div class="reviewer-name">Akira M.</div>
+            <span class="review-dish">Grilled Pork Neck Nam Tok</span>
+          </div>
+          <div class="review-stars">⭐⭐⭐⭐⭐</div>
+        </div>
+        <p class="review-text">Came here from Japan just for this. The nam tok has the most amazing smoky flavor. Will be back next trip!</p>
+        <div class="review-date">February 2026</div>
+      </div>
+      <div class="review-card reveal">
+        <div class="review-head">
+          <div>
+            <div class="reviewer-name">Priya S.</div>
+            <span class="review-dish">Baked Chicken Wing</span>
+          </div>
+          <div class="review-stars">⭐⭐⭐⭐⭐</div>
+        </div>
+        <p class="review-text">Only 15 baht for the most amazing chicken wings! Crispy skin, juicy inside, chili salt glaze is addictive. Best value ever!</p>
+        <div class="review-date">March 2026</div>
+      </div>
+      <div class="review-card reveal">
+        <div class="review-head">
+          <div>
+            <div class="reviewer-name">Wanchai P.</div>
+            <span class="review-dish">Spicy Glass Noodle Salad</span>
+          </div>
+          <div class="review-stars">⭐⭐⭐⭐⭐</div>
+        </div>
+        <p class="review-text">The woon sen salad is my go-to. Generous portion, fresh herbs, perfectly seasoned. This is what Bangkok street food is all about!</p>
+        <div class="review-date">January 2026</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ TEAM ═══ -->
+  <section id="team" class="section-wrap">
+    <div class="section-head reveal">
+      <div class="section-title-row">
+        <span class="section-emoji">👨‍🍳</span>
+        <h2 class="section-title">Meet the Team</h2>
+      </div>
+      <div class="section-divider"></div>
+      <p class="section-sub">The passionate people behind every toss</p>
+    </div>
+    <div class="team-grid">
+      <div class="team-card reveal">
+        <span class="team-avatar">👨‍🍳</span>
+        <div class="team-name">Chef Somchai</div>
+        <div class="team-role">Head Chef & Founder</div>
+        <p class="team-bio">20 years tossing yum on the streets of Bangkok. Trained under his grandmother in Isaan.</p>
+      </div>
+      <div class="team-card reveal">
+        <span class="team-avatar">👩‍🍳</span>
+        <div class="team-name">Malee Jaidee</div>
+        <div class="team-role">Sous Chef</div>
+        <p class="team-bio">Specializes in the perfect nam jim. Sources all herbs fresh from Chatuchak market every morning.</p>
+      </div>
+      <div class="team-card reveal">
+        <span class="team-avatar">🔥</span>
+        <div class="team-name">Nong Spice</div>
+        <div class="team-role">Grill Master</div>
+        <p class="team-bio">Master of the charcoal grill. His pork neck nam tok has a 2-hour waiting list on weekends.</p>
+      </div>
+      <div class="team-card reveal">
+        <span class="team-avatar">🌿</span>
+        <div class="team-name">Aom Herbs</div>
+        <div class="team-role">Ingredient Curator</div>
+        <p class="team-bio">Hand-picks every lemongrass, galangal, and kaffir lime leaf. Freshness is her obsession.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer>
+    <a href="#hero" class="footer-logo">
+      <span class="animate-flicker" style="font-size:1.2rem">🌶</span>
+      <span>Yum Spicy</span>
+    </a>
+    <p>Authentic Thai Street Salads · Yaowarat Rd, Bangkok · All prices in Thai Baht</p>
+    <p>Made with 🌶 &amp; love © 2026</p>
+  </footer>
+
+  <!-- Toast & Cart -->
+  <div id="toast"><span>🌶</span><span id="toast-msg"></span></div>
+  <button id="cart-btn" title="View order">🛒<span id="cart-count"></span></button>
+
+  <!-- ═══════════════════════════════════════
+       JAVASCRIPT
+  ═══════════════════════════════════════ -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+      /* 1 ── Sticky navbar */
+      const navbar = document.getElementById('navbar');
+      window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 40));
+
+      /* 2 ── Hamburger */
+      const hamburger  = document.getElementById('hamburger');
+      const mobileMenu = document.getElementById('mobile-menu');
+      hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('open');
+        mobileMenu.classList.toggle('open');
+      });
+      mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        mobileMenu.classList.remove('open');
+      }));
+
+      /* 3 ── Active nav link */
+      const allSections = document.querySelectorAll('section[id], header[id]');
+      const navLinks    = document.querySelectorAll('.nav-links a');
+      allSections.forEach(s => {
+        new IntersectionObserver(entries => {
+          entries.forEach(e => {
+            if (e.isIntersecting)
+              navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === `#${e.target.id}`));
+          });
+        }, { threshold: 0.35 }).observe(s);
+      });
+
+      /* 4 ── Scroll reveal */
+      const revealObs = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            setTimeout(() => entry.target.classList.add('visible'), +(entry.target.dataset.delay || 0));
+            revealObs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      document.querySelectorAll('.reveal').forEach((el, i) => {
+        el.dataset.delay = (i % 6) * 70;
+        revealObs.observe(el);
+      });
+
+      /* 5 ── Toast */
+      const toast    = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-msg');
+      let toastTimer;
+      function showToast(msg) {
+        toastMsg.textContent = msg;
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
+      }
+
+      /* 6 ── Cart */
+      let cartCount = 0;
+      const cartBtn = document.getElementById('cart-btn');
+      const cartNum = document.getElementById('cart-count');
+      const orderPrices = [];
+
+      document.querySelectorAll('.menu-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const name  = card.dataset.name  || card.querySelector('.card-name')?.textContent.trim();
+          const price = +(card.dataset.price || 0);
+          cartCount++;
+          orderPrices.push(price);
+          cartNum.textContent = cartCount;
+          cartNum.style.display = 'flex';
+          showToast(`✅ เพิ่มแล้ว: ${name}  ${price}฿`);
+          cartBtn.style.transform = 'scale(1.3)';
+          setTimeout(() => cartBtn.style.transform = '', 200);
+          ripple(card);
+        });
+      });
+
+      cartBtn.addEventListener('click', () => {
+        const total = orderPrices.reduce((a, b) => a + b, 0);
+        showToast(cartCount ? `🛒 ${cartCount} รายการ · รวม ${total}฿` : '🛒 ยังไม่มีรายการ — แตะเมนูเพื่อเพิ่ม!');
+      });
+
+      /* 7 ── Ripple */
+      function ripple(el) {
+        const r = document.createElement('span');
+        r.style.cssText = 'position:absolute;border-radius:50%;background:rgba(255,255,255,.15);width:10px;height:10px;left:50%;top:50%;transform:translate(-50%,-50%) scale(0);animation:ripple-anim .5s ease forwards;pointer-events:none;';
+        const s = document.getElementById('ripple-style') || (() => {
+          const ss = document.createElement('style');
+          ss.id = 'ripple-style';
+          ss.textContent = '@keyframes ripple-anim{to{transform:translate(-50%,-50%) scale(20);opacity:0}}';
+          document.head.appendChild(ss); return ss;
+        })();
+        el.appendChild(r);
+        setTimeout(() => r.remove(), 500);
+      }
+
+      /* 8 ── Smooth scroll */
+      document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', e => {
+          const t = document.querySelector(a.getAttribute('href'));
+          if (t) { e.preventDefault(); t.scrollIntoView({ behavior:'smooth', block:'start' }); }
+        });
+      });
+
+      /* 9 ── Animated counters */
+      const statsRow = document.querySelector('.hero-stats');
+      if (statsRow) {
+        new IntersectionObserver(entries => {
+          if (entries[0].isIntersecting) {
+            document.querySelectorAll('.stat-num[data-target]').forEach(el => {
+              const target = +el.dataset.target, suffix = el.dataset.suffix || '';
+              let val = 0;
+              const step = target / 60;
+              const t = setInterval(() => {
+                val = Math.min(val + step, target);
+                el.textContent = Math.floor(val) + suffix;
+                if (val >= target) clearInterval(t);
+              }, 16);
+              delete el.dataset.target;
+            });
+          }
+        }, { threshold: 0.5 }).observe(statsRow);
+      }
+
+      /* 10 ── Particle burst on hero click */
+      document.getElementById('hero').addEventListener('click', e => {
+        ['🌶','🔥','✦','🍋','🌿'].forEach(em => {
+          const p = document.createElement('span');
+          const angle = Math.random() * Math.PI * 2;
+          const dist  = 60 + Math.random() * 80;
+          p.textContent = em;
+          p.style.cssText = `position:fixed;left:${e.clientX}px;top:${e.clientY}px;font-size:${.9+Math.random()*.7}rem;pointer-events:none;z-index:9999;opacity:1;transform:translate(-50%,-50%);transition:transform .85s ease-out,opacity .85s ease-out;`;
+          document.body.appendChild(p);
+          requestAnimationFrame(() => {
+            p.style.transform = `translate(calc(-50% + ${Math.cos(angle)*dist}px),calc(-50% + ${Math.sin(angle)*dist-40}px))`;
+            p.style.opacity = '0';
+          });
+          setTimeout(() => p.remove(), 900);
+        });
+      });
+
+      /* 11 ── Typing effect */
+      const typedEl = document.getElementById('typed-title');
+      if (typedEl) {
+        const fullText = 'Larb & Nam Tok';
+        let started = false;
+        new IntersectionObserver(entries => {
+          if (entries[0].isIntersecting && !started) {
+            started = true;
+            typedEl.textContent = '';
+            const cursor = document.createElement('span');
+            cursor.textContent = '|';
+            cursor.style.cssText = 'color:var(--chili-400);animation:flicker .6s infinite';
+            typedEl.after(cursor);
+            let i = 0;
+            const t = setInterval(() => {
+              typedEl.textContent += fullText[i++];
+              if (i >= fullText.length) { clearInterval(t); setTimeout(() => cursor.remove(), 500); }
+            }, 65);
+          }
+        }, { threshold: 0.7 }).observe(typedEl);
+      }
+
+      /* 12 ── Order / Reservation form */
+      const orderForm = document.getElementById('order-form');
+      if (orderForm) {
+        orderForm.addEventListener('submit', e => {
+          e.preventDefault();
+          const fd    = new FormData(orderForm);
+          const name  = fd.get('name') || 'ลูกค้า';
+          const item  = fd.get('item') || 'รายการ';
+          const qty   = fd.get('quantity') || '1';
+          const spice = fd.get('spice') || '';
+          showToast(`✅ ยืนยันออเดอร์ของ ${name}: ${qty}x ${item.split('–')[0].trim()} (${spice})`);
+          orderForm.reset();
+          cartCount += +qty || 1;
+          cartNum.textContent = cartCount;
+          cartNum.style.display = 'flex';
+        });
+      }
+
+      console.log('%c🌶 Yum Spicy – all systems go!', 'color:#ff5c3a;font-family:Kanit;font-size:1rem;font-weight:700');
+    });
+  </script>
+</body>
+</html>
